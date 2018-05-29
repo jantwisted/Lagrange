@@ -75,7 +75,7 @@ systemctl status httpd
 
 That's it, and I hope this will help someone who's struggling with systemd containers.
 
-#####References:
+####References:
 
 - https://github.com/docker-library/docs/tree/master/centos#systemd-integration
 - https://github.com/moby/moby/issues/7459
