@@ -15,13 +15,13 @@ Failed to get D-Bus connection: No connection to service
 
 So, this is what I learned after a some consideration of the issue I faced. A docker container isn't a VM, so it's more like a *NIX process. Easiest way to run httpd is run it with my own process manager.
 
-```Shell
+```shell
 /usr/sbin/httpd -k start
 ```
 Now, I'm going to show how it can be run with systemd tools. This is a pain and insecure in certain ways. But let's do it for fun !
 
 1. Create a customized image from the base image, here we delete some unit files of systemd to avoid some issues.
-```Dockerfile
+```shell
 FROM centos:latest
 ENV container docker
 RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == \
@@ -38,12 +38,12 @@ CMD ["/usr/sbin/init"]
 ```
 
 2. Build the customized based image.
-```Shell
+```shell
 docker build -t local/centos-systemd .
 ```
 
 3. Create another docker image from the customized base image.
-```Dockerfile
+```shell
 FROM local/c-systemd
 MAINTAINER janith <janith@member.fsf.org>
 RUN yum -y update && yum -y install httpd && yum clean all
@@ -54,21 +54,21 @@ CMD ["/usr/sbin/init"]
 ```
 
 4. Build the new image.
-```Shell
+```shell
    docker build -t local/centos-httpd .
 ```
 5. Create a container based on the new image. While creating, we need to mount cgroups volumes from the host in read only mode (ro).
-```Shell
+```shell
 docker run -itd --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro -p 80:80 local/centos-httpd
 ```
 
 6. Finally, the apache server must be started, and you can check it from a browser (for terminal based, use elinks).
-```Shell
+```shell
 elinks http://localhost
 ```
 
 7. Let's check the apache server status.
-```Shell
+```shell
 docker exec -it <container_name> /bin/bash
 systemctl status httpd
 ```
