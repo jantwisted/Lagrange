@@ -18,7 +18,7 @@ My plan is to use `Nginx` as the webserver and run it in a Docker container. The
 1. Install Docker CE, how-to-install-docker: https://docs.docker.com/engine/installation/linux/docker-ce/debian/#install-using-the-repository
 
 2. Download Nginx image
-```Shell
+```shell
 sudo docker pull nginx:latest
 ```
 
@@ -28,7 +28,7 @@ sudo docker pull nginx:latest
 	* Directory map `/home/user/www/output -> /usr/share/nginx/html`
 
 5. Create and run the container
-```Shell
+```shell
 sudo docker run -d -p 80:80 --name=WebServer1 -v /home/user/www/output:/usr/share/nginx/html nginx:latest
 ```
 	* `p` option is used to forward the ports.

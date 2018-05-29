@@ -23,7 +23,7 @@ ex: connect 192.168.56.103:9999
 And you will see how the prompt gets changed as soon as it got connected. Furthermore, to find out the management port, the 
 easiest way is to add the offset to the default value. `default+offset`. You may get the default value by opening `$JBOSS_HOME/standalone/configuration/standalone.xml` file. (in domain mode, it will be `$JBOSS_HOME/domain/configuration/domain.xml` file)
 
-```XML
+```xml
 <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
 <socket-binding name="management-native" interface="management" port="${jboss.management.native.port:9999}"/>
 <socket-binding name="management-http" interface="management" port="${jboss.management.http.port:9990}"/>
@@ -36,19 +36,19 @@ easiest way is to add the offset to the default value. `default+offset`. You may
 Creating a datasource from `CLI` mode is not straight forward. First, you need to add `jdbc` driver as a module and install it.
 Shift to jboss `CLI` mode and execute,
 
-```Shell
+```shell
 module add --name=name_of_the_module --resource=jdbc_location --dependencies=list_of_dependencies
 ```
 
 Once you have added the module, you need to install it as a driver,
 
-```Shell	
+```shell	
 /subsystem=datasources/jdbc-driver=jdbc_driver_name:add(driver-name=jdbc_driver_name,driver-module-name=module_name,driver-class-name=class_name)
 ```
     
 The final part is to create a datasource.
 
-```Shell		
+```shell		
 data-source add --jndi-name=java:/jndi_name --name=dt_name --connection-url=jdbc_url --driver-name=jdbc_driver_name --user-name=username --password=password --enabled=true
 ```
 
@@ -56,13 +56,13 @@ data-source add --jndi-name=java:/jndi_name --name=dt_name --connection-url=jdbc
 
 In standalone mode, the application deployment can be done like this,
 
-```Shell
+```shell
 deploy path_to_the_app_with_file_name
 ```
 
 In domain mode, you need to specify the server group.
 
-```Shell
+```shell
 deploy path_to_the_app_with_file_name --server-groups=main-server-group
 ```
 
@@ -72,48 +72,48 @@ deploy path_to_the_app_with_file_name --server-groups=main-server-group
 
 To remove a datasource,
 
-```Shell
+```shell
 data-source remove --name=data_source_name
 ```
 
 To remove a module,
 
-```Shell
+```shell
 module remove --name=module_name
 ```
 
 To remove a driver,
 
-```Shell
+```shell
 /subsystem=datasources/jdbc-driver=driver_name:remove
 ```
 
 List all resources,
 
-```Shell
+```shell
 /subsystem=datasources:read-resource(recursive=true)
 ```
 
 List installed drivers,
 
-```Shell
+```shell
 /subsystem=datasources:installed-drivers-list
 ```
 
 Check a datasource connection,
 
-```Shell
+```shell
 /subsystem=datasources/data-source=jndi_name:test-connection-in-pool
 ```
 
 Undeploy an application (in standalone mode),
 
-```Shell
+```shell
 undeploy module_name
 ```
 
 Undeploy an application (in domain mode),
 
-```Shell
+```shell
 undeploy module_name --all-relevant-server-groups
 ```

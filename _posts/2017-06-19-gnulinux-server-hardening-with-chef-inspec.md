@@ -13,7 +13,7 @@ The name itself describes what `inspec` does. It gives a compliance report based
 
 This is a sample of compliance code.
 
-```Ruby
+```ruby
 control'sshd-21'
 	title 'Set SSH Protocol to 2'
 	desc 'A detailed description'
@@ -27,7 +27,7 @@ end
 
 Let's find out what operating system we are dealing with,
 
-```Shell
+```shell
 inspec detect -t ssh://root@192.168.56.103 --password 'cookies'
 ```
 ```
@@ -41,7 +41,7 @@ Arch:      x86_64
 
 Now, I'm downloading `linux-baseline` compliance code which is provided by dev-sec (A hardening framework)
 
-```Shell
+```shell
 git clone https://github.com/dev-sec/linux-baseline
 inspec exec linux-baseline -t ssh://root@192.168.56.103 --password 'cookies'
 ```
@@ -55,13 +55,13 @@ If you scroll up the result, you will see what things you need to fix for a bett
 
 To remediate the targeted operating system, I'm using `knife-zero` with `os-hardening` cookbook. [how-to-install-knife-zero](http://knife-zero.github.io/10_install/)
 
-```
+```shell
 knife zero bootstrap 192.168.56.103 --ssh-user root --node-name production-server
 ```
 
 This installs chef client on the target. After the installation, I'm going to download and prepare `os-hardening` cookbook and run the run-list.
 
-```Shell
+```shell
 knife cookbook site download compat_resource
 knife cookbook site download ohai
 knife cookbook site download sysctl
@@ -76,7 +76,7 @@ knife zero converge "name:production-server" --ssh-user root --override-runlist 
 
 Once it executed successfully, my server os will be hardened. To verify the status, let's call inspec again.
 
-```
+```shell
 inspec exec linux-baseline -t ssh://root@192.168.56.103 --password 'cookies'
 ```
 
