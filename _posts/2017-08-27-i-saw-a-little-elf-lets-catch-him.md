@@ -29,15 +29,15 @@ This is going to be a long post, just hold your breath and let me explain how I 
 ```
 *  Figure out the encoded method.
 
-The string length was 37164, but when I refresh, it gives another string with a different length. However,  they have some similar attributes, such as the lengths are multiple of 4 and every character is in the set of `[ A-Z, a-z, 0-9, +, / ]`, except the padding at the end. So the conclusion is, the encoded method should be base64. But it didn't give a useful message when I decoded the string. Why?
+The string length was 37164, but when I refresh, it gives another string with a different length. However,  they have some similar attributes, such as the lengths are multiple of 4 and every character is in the set of `[ A-Z, a-z, 0-9, +, / ]`, except the padding at the end. So the conclusion is, the encoded method should be base64. However, it didn't give a useful message, even after the decode process. But why?
 
 *  Why they have given a checksum ?
 
-The checksum is used to verify a file, message or anything related to hashing. The checksum has 32 characters, which is md5. Then, I used md5 to generate a hash for the encoded value, and it gave something different. The expected value would be the same as the checksum. I tried a few times, and suddenly it gave the expected result. I ran it again but no luck this time. So what I was missing ? The iteration. I call the script in a loop until I get what I needed, and it gave the result several times, but not always. Now I have the answer for the 1st step. When the checksum matches, the encoded string gets something meaning full.
+A checksum is used to verify a file, message or anything related to hashing. This checksum has 32 characters, which is md5. Then, I used md5 to generate a hash for the encoded value, and it gave something different. The expected value would be the same as the checksum. I tried a few times, and suddenly it gave the expected result. I ran it again but no luck this time. So what I was missing ? The iteration. I call the script in a loop until I get what I needed, and it gave the result several times, but not always. Now I have the answer for the 1st step. When the checksum matches, the encoded string gets something meaningful.
 
 * Elf files
 
-Now I have the message, but what is it ? yes, it's an elf file, which stands for **Executable and Linking File**. Great, I wrote the string to a file and used `readelf` command to read it (I wrote as a byte string). It showed the complete details of the file. But I'm yet to figure out the hidden message.
+Now I have the message, but what is it ? yes, it's an elf file (think about the name), which stands for **Executable and Linking File**. Great, I wrote the string to a file and used `readelf` command to read it (I wrote it as a byte string). It showed the complete details of the file. But I'm yet to figure out the hidden message.
 
 ```Shell
 readelf -a myelf.elf
@@ -52,7 +52,7 @@ chmod +x myelf.out && ./myelf.out
 
 * The Time
 
-Time is the common enemy. It gives 3 seconds to catch the Elf. When I write an elf file and execute, 90% of the attempts, it failed to accomplish the task within the given time. Instead of executing the file, I opened it and search for the answer (in this case I printed the answer), and it was there, but not that easy to read, because it was in a byte string.
+Time is the common enemy for everything. It gives 3 seconds to catch the Elf. When I write an elf file and execute, 90% of the attempts, it failed to accomplish the task within the given time. Instead of executing the file, I opened it and search for the answer (in this case I printed the answer), and it was there, but not that easy to read, because it was in a byte string.
 
 * Vim to rescue
 
