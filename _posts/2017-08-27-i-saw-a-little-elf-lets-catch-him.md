@@ -39,14 +39,14 @@ A checksum is used to verify a file, message or anything related to hashing. Thi
 
 Now I have the message, but what is it ? yes, it's an elf file (think about the name), which stands for **Executable and Linking File**. Great, I wrote the string to a file and used `readelf` command to read it (I wrote it as a byte string). It showed the complete details of the file. But I'm yet to figure out the hidden message.
 
-```Shell
+```shell
 readelf -a myelf.elf
 ```
 * Execute Elf file
 
 I renamed my elf file to .out file. Then changed the permissions and executed. Whoa, it printed the answer which I was looking for. :)
 
-```Shell
+```shell
 chmod +x myelf.out && ./myelf.out
 ```
 
